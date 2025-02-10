@@ -184,17 +184,5 @@ ingresar el id del Chef
 
 ---
 
-## 📌 4. Contribuciones
-
-¡Las contribuciones son bienvenidas! Para mejorar esta API, sigue estos pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature-nueva`).
-3. Realiza tus cambios y confirma (`git commit -m 'Añadir nueva funcionalidad'`).
-4. Sube los cambios (`git push origin feature-nueva`).
-5. Crea un Pull Request.
-
----
-
-## 📌 5. Desarrollador
+## 📌 4. Desarrollador
 ### Linder Yolian Rodriguez Cortes 
