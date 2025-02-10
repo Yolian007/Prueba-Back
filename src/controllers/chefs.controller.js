@@ -1,29 +1,36 @@
-const { chefs } = require("../models/chef.model");
+const Chef = require("../models/chef.model");
 
-const registerChef = (req, res) => {
-  const { name, specialty, experienceYears } = req.body;
+const registerChef = async (req, res) => {
+  try {
+    const { name, specialty, experienceYears, category } = req.body;
 
-  if (!name || !specialty || experienceYears === undefined) {
-    return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    // ✅ Corrección de la validación
+    if (!name || !specialty || experienceYears === undefined || category === undefined) {
+      return res.status(400).json({ message: "Todos los campos son obligatorios (name, specialty, experienceYears, category)" });
+    }
+
+    // ✅ Validar que la categoría sea una de las permitidas
+    const validCategories = ["Postres", "Platos principales", "Entradas"];
+    if (!validCategories.includes(category)) {
+      return res.status(400).json({ message: "Categoría no válida. Debe ser 'Postres', 'Platos principales' o 'Entradas'." });
+    }
+
+    const chef = new Chef({ name, specialty, experienceYears, category });
+    await chef.save();
+    
+    res.status(201).json({ message: "Chef registrado exitosamente", chef });
+  } catch (error) {
+    res.status(500).json({ message: "Error al registrar chef", error });
   }
+};
 
-  if (typeof experienceYears !== "number" || experienceYears < 0) {
-    return res.status(400).json({ message: "El campo 'experienceYears' debe ser un número positivo" });
+const getChefs = async (req, res) => {
+  try {
+    const chefs = await Chef.find();
+    res.status(200).json({ chefs });
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener chefs", error });
   }
-
-  const newChef = { id: `c${chefs.length + 1}`, name, specialty, experienceYears };
-  chefs.push(newChef);
-
-  return res.status(201).json({ message: "Chef registrado exitosamente", chef: newChef });
 };
 
-const getChefs = (req, res) => {
-  res.status(200).json({ chefs });
-};
-
-
-
-module.exports = {
-  registerChef,
-  getChefs
-};
+module.exports = { registerChef, getChefs };

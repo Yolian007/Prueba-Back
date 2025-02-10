@@ -12,4 +12,6 @@ app.use("/api/tournaments", require("./routes/tournaments.routes"));
 // Middleware para manejo de errores
 app.use(errorHandler);
 
+app.use("/api/auth", require("./routes/auth.routes"));
+
 module.exports = app;
